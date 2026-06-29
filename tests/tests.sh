@@ -9,11 +9,17 @@ function cleanup()
     exit_status=$?
     echo "exit was $exit_status"
     # stop autoheal first, to stop it restarting the test containers while we try to stop them
-    docker-compose stop autoheal
-    docker-compose -f docker-compose.autoheal.yml -f docker-compose.yml down || true
+    docker compose stop autoheal
+    docker compose -f docker-compose.autoheal.yml -f docker-compose.yml down || true
     exit "$exit_status"
 }
 trap cleanup EXIT
-docker-compose up --build -d
-docker-compose -f docker-compose.autoheal.yml up --build --exit-code-from watch-autoheal watch-autoheal
 
+# If no pre-built image is specified, build one locally
+if [ -z "${AUTOHEAL_IMAGE:-}" ]; then
+    export AUTOHEAL_IMAGE=autoheal:local
+    docker build -t "$AUTOHEAL_IMAGE" ../
+fi
+
+docker compose up -d
+docker compose -f docker-compose.autoheal.yml up --build --exit-code-from watch-autoheal watch-autoheal

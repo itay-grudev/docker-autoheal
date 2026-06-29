@@ -46,8 +46,7 @@ services:
     command: tail -f /dev/null
 
   autoheal:
-    build:
-      context: ../
+    image: ${AUTOHEAL_IMAGE:-autoheal:local}
     restart: unless-stopped
     environment:
       AUTOHEAL_CONTAINER_LABEL: "${AUTOHEAL_CONTAINER_LABEL:-all}"
