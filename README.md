@@ -1,5 +1,7 @@
 # Docker Autoheal
 
+[![docker-image-build](https://github.com/itay-grudev/docker-autoheal/actions/workflows/docker-image-build.yml/badge.svg)](https://github.com/itay-grudev/docker-autoheal/actions/workflows/docker-image-build.yml)
+
 Independent fork of [willfarrell/docker-autoheal](https://github.com/willfarrell/docker-autoheal)
 
 Monitor and restart unhealthy docker containers. 
